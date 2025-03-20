@@ -1,4 +1,4 @@
-const shoppingList = ['Yeezy', 'Mrenda', 'Matumbo'];
+const shoppingList = [];
 
 //  Utility functions for DOM manipulation
 function createAnElement(element) {
@@ -25,22 +25,61 @@ function addAttribute(element, attribute, content) {
 	return element.setAttribute(attribute, content);
 }
 
+// const ol = document.querySelector("ol")
 const ol = select('ol');
 
+// document.addEventListener('DOMContentLoaded', displayItems);
 listen(document, 'DOMContentLoaded', displayItems);
 
 function displayItems() {
+	ol.innerHTML = '';
 	shoppingList.forEach(createAListItem);
 }
 
 function createAListItem(item) {
+	// const li = document.createElement('li');
 	const li = createAnElement('li');
+
+	// li.innerText = item
 	addText(li, item);
+
+	// ol.appendChild(li)
 	appendChild(ol, li);
 
-	listen(li, 'click', toggleChecked);
+	// li.addEventListener('click', () => toggleChecked(li));
+	listen(li, 'click', () => toggleChecked(li));
+}
 
-	function toggleChecked() {
-		li.classList.toggle('checked');
-	}
+function toggleChecked(li) {
+	li.classList.toggle('checked');
+}
+
+// const form = document.querySelector("form")
+const form = select('form');
+
+// form.addEventListener("submit", addItem)
+listen(form, 'submit', addItem);
+
+function addItem(event) {
+	event.preventDefault();
+
+	shoppingList.push(event.target[0].value);
+
+	displayItems();
+
+	event.target.reset();
+}
+
+// const deleteButton = document.querySelector('.delete');
+const deleteButton = select('.delete');
+
+// deleteButton.addEventListener("click", clearList)
+listen(deleteButton, 'click', clearList);
+
+function clearList() {
+	// shoppingList.length = 0
+
+	shoppingList.splice(0);
+
+	displayItems();
 }
